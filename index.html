@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>はじめまして｜自己紹介ノート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafcfd;
+    --card: #ffffff;
+    --ink: #2a3b47;
+    --sub: #6b7c88;
+    --line: #dde7ed;
+    --accent: #4a90c2;
+    --accent-soft: #e8f2f9;
+    --ball: #f0a04b;
+    --danger: #c0564f;
+    --font: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  a, button, input, select, textarea { font-family: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---- ヘッダー ---- */
+  header { position: relative; overflow: hidden; padding: 64px 0 40px; }
+  .court {
+    position: absolute; right: -90px; top: -30px;
+    width: 300px; height: 300px; pointer-events: none;
+  }
+  header h1 {
+    position: relative;
+    margin: 0 0 8px;
+    font-size: clamp(2rem, 9vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: .06em;
+    line-height: 1.3;
+  }
+  header p { position: relative; margin: 0 0 24px; color: var(--sub); }
+  .btn {
+    display: inline-block;
+    border: 0; border-radius: 999px;
+    padding: 12px 28px;
+    background: var(--accent); color: #fff;
+    font-size: 1rem; font-weight: 700; letter-spacing: .05em;
+    text-decoration: none; cursor: pointer;
+  }
+  .btn:hover { background: #3d7fae; }
+  .btn.ghost { background: var(--accent-soft); color: var(--accent); }
+  .btn.ghost:hover { background: #d9eaf5; }
+
+  /* ---- 一覧 ---- */
+  h2 { font-size: 1.15rem; margin: 0 0 16px; letter-spacing: .05em; }
+  #list { display: grid; gap: 16px; padding-bottom: 48px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px 20px 16px;
+    display: grid; grid-template-columns: auto 1fr; gap: 4px 16px;
+  }
+  .num {
+    grid-row: span 3;
+    min-width: 2.2ch;
+    font-size: 2.6rem; font-weight: 700; line-height: 1.1;
+    color: var(--line); text-align: center;
+  }
+  .num.has { color: var(--ball); }
+  .name { margin: 0; font-size: 1.15rem; font-weight: 700; word-break: break-word; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    background: var(--accent-soft); color: var(--accent);
+    border-radius: 999px; padding: 0 12px;
+    font-size: .8rem; font-weight: 500; line-height: 1.9;
+  }
+  .likes, .msg { margin: 0; font-size: .95rem; word-break: break-word; white-space: pre-wrap; }
+  .likes { color: var(--sub); }
+  .foot {
+    grid-column: 1 / -1;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line);
+    font-size: .8rem; color: var(--sub);
+  }
+  .del {
+    border: 0; background: none; color: var(--sub);
+    font-size: .8rem; padding: 4px 8px; border-radius: 8px; cursor: pointer;
+  }
+  .del:hover { color: var(--danger); background: #fbeeed; }
+  .empty { color: var(--sub); text-align: center; padding: 32px 0; }
+
+  /* ---- フォーム ---- */
+  #write { background: #fff; border-top: 1px solid var(--line); padding: 40px 0 64px; }
+  form { display: grid; gap: 20px; }
+  label { display: grid; gap: 6px; font-weight: 700; font-size: .95rem; }
+  .hint { font-weight: 400; font-size: .8rem; color: var(--sub); }
+  input, select, textarea {
+    width: 100%;
+    border: 1.5px solid var(--line); border-radius: 12px;
+    padding: 10px 14px;
+    background: var(--bg); color: var(--ink);
+    font-size: 1rem; font-weight: 400;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: none; background: #fff; }
+  textarea { min-height: 96px; resize: vertical; }
+  .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  @media (max-width: 460px) { .row { grid-template-columns: 1fr 1fr; } .row label:last-child { grid-column: 1 / -1; } }
+  form .btn { justify-self: start; }
+
+  /* ---- 削除ダイアログ ---- */
+  dialog {
+    border: 0; border-radius: 18px; padding: 24px;
+    width: min(92vw, 380px);
+    color: var(--ink); font-family: var(--font);
+  }
+  dialog::backdrop { background: rgba(42, 59, 71, .35); }
+  dialog p { margin: 0 0 12px; }
+  .dlg-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+  .btn.danger { background: var(--danger); }
+  .btn.danger:hover { background: #a94a44; }
+  .err { color: var(--danger); font-size: .85rem; min-height: 1.4em; margin: 4px 0 0; }
+
+  /* ---- 通知 ---- */
+  #toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+    background: var(--ink); color: #fff;
+    padding: 10px 22px; border-radius: 999px; font-size: .9rem;
+    opacity: 0; pointer-events: none;
+  }
+  #toast.show { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    #toast { transition: opacity .25s; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <!-- コートのセンターサークルをイメージした細い線 -->
+  <svg class="court" viewBox="0 0 300 300" aria-hidden="true">
+    <circle cx="150" cy="150" r="120" fill="none" stroke="#dde7ed" stroke-width="2"/>
+    <circle cx="150" cy="150" r="52" fill="none" stroke="#dde7ed" stroke-width="2"/>
+    <circle cx="150" cy="150" r="9" fill="#f0a04b"/>
+  </svg>
+  <div class="wrap">
+    <h1>はじめまして</h1>
+    <p>ひとりずつ、ゆっくり読んでね。<br>あなたの自己紹介もまってます。</p>
+    <a class="btn" href="#write">自己紹介を書く</a>
+  </div>
+</header>
+
+<main>
+  <section class="wrap" aria-labelledby="list-title">
+    <h2 id="list-title">みんなの自己紹介</h2>
+    <div id="list" aria-live="polite"><p class="empty">読み込み中です…</p></div>
+  </section>
+
+  <section id="write">
+    <div class="wrap">
+      <h2>自己紹介を書く</h2>
+      <form id="form" autocomplete="off">
+        <label>ニックネーム
+          <input name="nickname" maxlength="20" required placeholder="例：はる">
+          <span class="hint">本名や学校名は書かなくて大丈夫です</span>
+        </label>
+
+        <div class="row">
+          <label>学年
+            <select name="grade">
+              <option value="">えらぶ</option>
+              <option>1年</option><option>2年</option><option>3年</option>
+            </select>
+          </label>
+          <label>ポジション
+            <select name="position">
+              <option value="">えらぶ</option>
+              <option>PG</option><option>SG</option><option>SF</option>
+              <option>PF</option><option>C</option><option>マネージャー</option>
+            </select>
+          </label>
+          <label>背番号
+            <input name="number" inputmode="numeric" pattern="\d{1,2}" maxlength="2" placeholder="例：7">
+          </label>
+        </div>
+
+        <label>すきなもの
+          <input name="likes" maxlength="60" placeholder="例：シュート練習、カフェめぐり">
+        </label>
+
+        <label>ひとこと
+          <textarea name="message" maxlength="200" placeholder="よろしくお願いします！"></textarea>
+        </label>
+
+        <label>削除用のあいことば
+          <input name="passcode" type="password" minlength="4" required autocomplete="new-password">
+          <span class="hint">4文字以上。あとで自分の自己紹介を消すときに使います</span>
+        </label>
+
+        <p class="err" id="formErr" role="alert"></p>
+        <button class="btn" type="submit" id="submitBtn">自己紹介をのせる</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<dialog id="delDialog">
+  <form method="dialog" id="delForm">
+    <p><strong id="delName"></strong> さんの自己紹介を削除します。<br>登録したあいことばを入力してください。</p>
+    <input id="delPass" type="password" autocomplete="off" aria-label="あいことば">
+    <p class="err" id="delErr" role="alert"></p>
+    <div class="dlg-actions">
+      <button class="btn ghost" type="button" id="delCancel">やめる</button>
+      <button class="btn danger" type="submit" id="delOk">削除する</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" role="status"></div>
+
+<script>
+  // ★ GAS をウェブアプリとしてデプロイしたときの URL をここに貼る
+  const GAS_URL = 'ここにウェブアプリのURLを貼る';
+
+  const $ = (s) => document.querySelector(s);
+  const listEl = $('#list');
+  let deleteTarget = null;
+
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  async function post(payload) {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      // text/plain にすると CORS のプリフライトが不要になり、GAS で動く
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'うまくいきませんでした');
+    return data;
+  }
+
+  async function load() {
+    if (!GAS_URL.startsWith('https://')) {
+      listEl.innerHTML = '<p class="empty">index.html の GAS_URL を設定してください。</p>';
+      return;
+    }
+    try {
+      const res = await fetch(GAS_URL + '?action=list');
+      const data = await res.json();
+      if (!data.ok) throw new Error();
+      render(data.items);
+    } catch (e) {
+      listEl.innerHTML = '<p class="empty">読み込めませんでした。時間をおいて、もう一度ひらいてね。</p>';
+    }
+  }
+
+  function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text; // textContent で入れるので、入力内容がHTMLとして実行されない
+    return n;
+  }
+
+  function render(items) {
+    listEl.replaceChildren();
+    if (!items.length) {
+      listEl.append(el('p', 'empty', 'まだだれものっていません。最初のひとりになってみよう。'));
+      return;
+    }
+    for (const it of items) {
+      const card = el('article', 'card');
+      card.append(el('div', 'num' + (it.number ? ' has' : ''), it.number || '–'));
+      card.append(el('h3', 'name', it.nickname));
+
+      const chips = el('div', 'chips');
+      if (it.grade) chips.append(el('span', 'chip', it.grade));
+      if (it.position) chips.append(el('span', 'chip', it.position));
+      if (chips.children.length) card.append(chips);
+
+      if (it.likes) card.append(el('p', 'likes', 'すきなもの：' + it.likes));
+      if (it.message) card.append(el('p', 'msg', it.message));
+
+      const foot = el('div', 'foot');
+      const d = new Date(it.createdAt);
+      foot.append(el('span', '', isNaN(d) ? '' : `${d.getMonth() + 1}/${d.getDate()}`));
+      const del = el('button', 'del', '削除');
+      del.type = 'button';
+      del.addEventListener('click', () => openDelete(it));
+      foot.append(del);
+      card.append(foot);
+      listEl.append(card);
+    }
+  }
+
+  /* ---- 登録 ---- */
+  $('#form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('#submitBtn');
+    const err = $('#formErr');
+    err.textContent = '';
+    btn.disabled = true;
+    try {
+      const f = Object.fromEntries(new FormData(e.target));
+      await post({ action: 'create', ...f });
+      e.target.reset();
+      toast('のせました！');
+      await load();
+      document.getElementById('list-title').scrollIntoView();
+    } catch (ex) {
+      err.textContent = ex.message;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  /* ---- 削除（論理削除） ---- */
+  const dlg = $('#delDialog');
+  function openDelete(it) {
+    deleteTarget = it;
+    $('#delName').textContent = it.nickname;
+    $('#delPass').value = '';
+    $('#delErr').textContent = '';
+    dlg.showModal();
+    $('#delPass').focus();
+  }
+  $('#delCancel').addEventListener('click', () => dlg.close());
+  $('#delForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const ok = $('#delOk');
+    ok.disabled = true;
+    try {
+      await post({ action: 'delete', id: deleteTarget.id, passcode: $('#delPass').value });
+      dlg.close();
+      toast('削除しました');
+      await load();
+    } catch (ex) {
+      $('#delErr').textContent = ex.message;
+    } finally {
+      ok.disabled = false;
+    }
+  });
+
+  load();
+</script>
+</body>
+</html>
