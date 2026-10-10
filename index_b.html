@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>はじめまして｜自己紹介ノート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf8fa;
+    --card: #ffffff;
+    --ink: #3b3550;
+    --sub: #8a8499;
+    --line: #ece6ee;
+    --accent: #c94a70;
+    --accent-dark: #b13e63;
+    --danger: #b8453f;
+    --font: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  a, button, input, select, textarea { font-family: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---- ヘッダー ---- */
+  header { padding: 56px 0 28px; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  h1 { margin: 0; font-size: clamp(1.9rem, 8vw, 2.6rem); line-height: 1.35; letter-spacing: .04em; font-weight: 700; }
+  header p { margin: 8px 0 0; color: var(--sub); font-size: .95rem; }
+  .ball { flex: none; width: 72px; height: 72px; transform: rotate(-14deg); }
+
+  /* ---- 一覧 ---- */
+  #list {
+    display: grid; gap: 14px;
+    grid-template-columns: 1fr;
+    padding-bottom: 120px; /* 下の固定ボタンと重ならないように */
+  }
+  @media (min-width: 720px) { #list { grid-template-columns: 1fr 1fr; } }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 18px 18px 12px;
+    display: grid; grid-template-columns: 76px 1fr; gap: 0 16px;
+    align-content: start;
+  }
+  .jersey { width: 76px; height: 76px; }
+  .jersey text { font-family: var(--font); font-weight: 700; font-size: 26px; fill: var(--ink); }
+  .body { min-width: 0; }
+  .name { margin: 0; font-size: 1.1rem; font-weight: 700; line-height: 1.5; word-break: break-word; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 0 10px; font-size: .78rem; line-height: 1.8; }
+  .likes, .msg { margin: 4px 0 0; font-size: .92rem; word-break: break-word; white-space: pre-wrap; }
+  .likes { color: var(--sub); }
+  .foot {
+    grid-column: 1 / -1; margin-top: 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .78rem; color: var(--sub);
+  }
+  .del { border: 0; background: none; color: var(--sub); font-size: .78rem; padding: 4px 8px; border-radius: 8px; cursor: pointer; }
+  .del:hover { color: var(--danger); background: #fbeeed; }
+  .empty { grid-column: 1 / -1; color: var(--sub); text-align: center; padding: 40px 0; }
+
+  /* ---- ボタン ---- */
+  .btn {
+    border: 0; border-radius: 999px; padding: 12px 28px;
+    background: var(--accent); color: #fff;
+    font-size: 1rem; font-weight: 700; letter-spacing: .04em; cursor: pointer;
+  }
+  .btn:hover { background: var(--accent-dark); }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .btn.ghost { background: #f4eef3; color: var(--ink); }
+  .btn.ghost:hover { background: #ebe3ea; }
+  .btn.danger { background: var(--danger); }
+  #fab {
+    position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    padding: 14px 32px; box-shadow: 0 4px 16px rgba(59, 53, 80, .18);
+    white-space: nowrap;
+  }
+
+  /* ---- ダイアログ ---- */
+  dialog {
+    border: 0; border-radius: 24px; padding: 24px 22px;
+    width: min(94vw, 460px); max-height: 90vh;
+    color: var(--ink); font-family: var(--font);
+  }
+  dialog::backdrop { background: rgba(59, 53, 80, .35); }
+  dialog h2 { margin: 0 0 16px; font-size: 1.15rem; }
+  dialog p { margin: 0 0 12px; }
+  form { display: grid; gap: 16px; }
+  label { display: grid; gap: 4px; font-weight: 700; font-size: .92rem; }
+  .hint { font-weight: 400; font-size: .78rem; color: var(--sub); }
+  input, select, textarea {
+    width: 100%; border: 1.5px solid var(--line); border-radius: 12px;
+    padding: 10px 14px; background: var(--bg); color: var(--ink);
+    font-size: 1rem; font-weight: 400;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: none; background: #fff; }
+  textarea { min-height: 88px; resize: vertical; }
+  .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 460px) { .row { grid-template-columns: 1fr 1fr; } .row label:last-child { grid-column: 1 / -1; } }
+  .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+  .err { color: var(--danger); font-size: .85rem; min-height: 1.4em; margin: 0; }
+
+  /* ---- 通知 ---- */
+  #toast {
+    position: fixed; left: 50%; top: 20px; transform: translateX(-50%);
+    background: var(--ink); color: #fff; padding: 10px 22px;
+    border-radius: 999px; font-size: .9rem; opacity: 0; pointer-events: none; z-index: 10;
+  }
+  #toast.show { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) { #toast { transition: opacity .25s; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <h1>はじめまして！</h1>
+      <p>みんなの自己紹介をのぞいてみてね。</p>
+    </div>
+    <!-- バスケットボール -->
+    <svg class="ball" viewBox="0 0 72 72" aria-hidden="true">
+      <circle cx="36" cy="36" r="31" fill="#fde6d3" stroke="#e9a97a" stroke-width="2.5"/>
+      <path d="M36 5V67M5 36H67" stroke="#e9a97a" stroke-width="2.5" fill="none"/>
+      <path d="M14 14C26 24 26 48 14 58M58 14C46 24 46 48 58 58" stroke="#e9a97a" stroke-width="2.5" fill="none"/>
+    </svg>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="list" aria-live="polite"><p class="empty">読み込み中です…</p></div>
+</main>
+
+<button class="btn" id="fab" type="button">自己紹介を書く</button>
+
+<!-- 登録ダイアログ -->
+<dialog id="writeDialog">
+  <h2>自己紹介を書く</h2>
+  <form id="form" autocomplete="off">
+    <label>ニックネーム
+      <input name="nickname" maxlength="20" required placeholder="例：はる">
+      <span class="hint">本名や学校名は書かなくて大丈夫です</span>
+    </label>
+    <div class="row">
+      <label>学年
+        <select name="grade">
+          <option value="">えらぶ</option>
+          <option>1年</option><option>2年</option><option>3年</option>
+        </select>
+      </label>
+      <label>ポジション
+        <select name="position">
+          <option value="">えらぶ</option>
+          <option>PG</option><option>SG</option><option>SF</option>
+          <option>PF</option><option>C</option><option>マネージャー</option>
+        </select>
+      </label>
+      <label>背番号
+        <input name="number" inputmode="numeric" pattern="\d{1,2}" maxlength="2" placeholder="例：7">
+      </label>
+    </div>
+    <label>すきなもの
+      <input name="likes" maxlength="60" placeholder="例：シュート練習、カフェめぐり">
+    </label>
+    <label>ひとこと
+      <textarea name="message" maxlength="200" placeholder="よろしくお願いします！"></textarea>
+    </label>
+    <label>削除用のあいことば
+      <input name="passcode" type="password" minlength="4" required autocomplete="new-password">
+      <span class="hint">4文字以上。あとで自分の自己紹介を消すときに使います</span>
+    </label>
+    <p class="err" id="formErr" role="alert"></p>
+    <div class="actions">
+      <button class="btn ghost" type="button" id="writeCancel">やめる</button>
+      <button class="btn" type="submit" id="submitBtn">のせる</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 削除ダイアログ -->
+<dialog id="delDialog">
+  <form id="delForm">
+    <p><strong id="delName"></strong> さんの自己紹介を削除します。<br>登録したあいことばを入力してください。</p>
+    <input id="delPass" type="password" autocomplete="off" aria-label="あいことば">
+    <p class="err" id="delErr" role="alert"></p>
+    <div class="actions">
+      <button class="btn ghost" type="button" id="delCancel">やめる</button>
+      <button class="btn danger" type="submit" id="delOk">削除する</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" role="status"></div>
+
+<script>
+  // ★ GAS をウェブアプリとしてデプロイしたときの URL をここに貼る
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyLp1K2rdLbOkNcS4J6sig3PrIqKUQbdy8B4_0hRN2c_Bb1zwR8jtNLrQ7Lp8nret4lkg/exec';
+
+  const $ = (s) => document.querySelector(s);
+  const listEl = $('#list');
+  const JERSEY_COLORS = ['#f7c5cf', '#bfe3d4', '#fbe3a6', '#cfc8f0', '#bfddf3'];
+  let deleteTarget = null;
+
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  async function post(payload) {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      // text/plain にすると CORS のプリフライトが不要になり、GAS で動く
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'うまくいきませんでした');
+    return data;
+  }
+
+  async function load() {
+    if (!GAS_URL.startsWith('https://')) {
+      listEl.innerHTML = '<p class="empty">index.html の GAS_URL を設定してください。</p>';
+      return;
+    }
+    try {
+      const res = await fetch(GAS_URL + '?action=list');
+      const data = await res.json();
+      if (!data.ok) throw new Error();
+      render(data.items);
+    } catch (e) {
+      listEl.innerHTML = '<p class="empty">読み込めませんでした。時間をおいて、もう一度ひらいてね。</p>';
+    }
+  }
+
+  function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text; // textContent なので入力内容はHTMLとして実行されない
+    return n;
+  }
+
+  // 背番号入りのユニフォーム。色は id から決めるので、毎回同じ色になる
+  function jersey(number, id) {
+    const NS = 'http://www.w3.org/2000/svg';
+    let h = 0;
+    for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 80 80');
+    svg.setAttribute('class', 'jersey');
+    svg.setAttribute('aria-hidden', 'true');
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', 'M22 6H31C31 18 49 18 49 6H58C58 22 64 28 68 30V74H12V30C16 28 22 22 22 6Z');
+    path.setAttribute('fill', JERSEY_COLORS[h % JERSEY_COLORS.length]);
+    svg.append(path);
+    if (number) {
+      const t = document.createElementNS(NS, 'text');
+      t.setAttribute('x', '40');
+      t.setAttribute('y', '58');
+      t.setAttribute('text-anchor', 'middle');
+      t.textContent = number;
+      svg.append(t);
+    }
+    return svg;
+  }
+
+  function render(items) {
+    listEl.replaceChildren();
+    if (!items.length) {
+      listEl.append(el('p', 'empty', 'まだだれものっていません。最初のひとりになってみよう。'));
+      return;
+    }
+    for (const it of items) {
+      const card = el('article', 'card');
+      card.append(jersey(it.number, it.id));
+
+      const body = el('div', 'body');
+      body.append(el('h2', 'name', it.nickname));
+      const chips = el('div', 'chips');
+      if (it.grade) chips.append(el('span', 'chip', it.grade));
+      if (it.position) chips.append(el('span', 'chip', it.position));
+      if (chips.children.length) body.append(chips);
+      if (it.likes) body.append(el('p', 'likes', 'すきなもの：' + it.likes));
+      if (it.message) body.append(el('p', 'msg', it.message));
+      card.append(body);
+
+      const foot = el('div', 'foot');
+      const d = new Date(it.createdAt);
+      foot.append(el('span', '', isNaN(d) ? '' : `${d.getMonth() + 1}/${d.getDate()}`));
+      const del = el('button', 'del', '削除');
+      del.type = 'button';
+      del.addEventListener('click', () => openDelete(it));
+      foot.append(del);
+      card.append(foot);
+      listEl.append(card);
+    }
+  }
+
+  /* ---- 登録 ---- */
+  const writeDlg = $('#writeDialog');
+  $('#fab').addEventListener('click', () => { $('#formErr').textContent = ''; writeDlg.showModal(); });
+  $('#writeCancel').addEventListener('click', () => writeDlg.close());
+
+  $('#form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('#submitBtn');
+    const err = $('#formErr');
+    err.textContent = '';
+    btn.disabled = true;
+    try {
+      const f = Object.fromEntries(new FormData(e.target));
+      await post({ action: 'create', ...f });
+      e.target.reset();
+      writeDlg.close();
+      toast('のせました！');
+      await load();
+    } catch (ex) {
+      err.textContent = ex.message;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  /* ---- 削除（論理削除） ---- */
+  const delDlg = $('#delDialog');
+  function openDelete(it) {
+    deleteTarget = it;
+    $('#delName').textContent = it.nickname;
+    $('#delPass').value = '';
+    $('#delErr').textContent = '';
+    delDlg.showModal();
+    $('#delPass').focus();
+  }
+  $('#delCancel').addEventListener('click', () => delDlg.close());
+  $('#delForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const ok = $('#delOk');
+    ok.disabled = true;
+    try {
+      await post({ action: 'delete', id: deleteTarget.id, passcode: $('#delPass').value });
+      delDlg.close();
+      toast('削除しました');
+      await load();
+    } catch (ex) {
+      $('#delErr').textContent = ex.message;
+    } finally {
+      ok.disabled = false;
+    }
+  });
+
+  load();
+</script>
+</body>
+</html>
